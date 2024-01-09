@@ -12,6 +12,16 @@ class Organization {
     // Return the newly filled position or undefined if no position has that title
     this.hire = (person, title) => {
       // your code here
+      var queue = [root];
+      while (queue.length) {
+        var position = queue.shift();
+        if (position.getTitle() === title) {
+          position.setEmployee(person);
+          return position;
+        }
+        queue.push(...position.getDirectReports());
+      }
+      return undefined;
     };
 
     this.toString = () => this.printOrganization(root, '');
