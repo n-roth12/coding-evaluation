@@ -1,6 +1,8 @@
 package com.aa.act.interview.org;
 
 import java.util.Optional;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public abstract class Organization {
 
@@ -21,6 +23,18 @@ public abstract class Organization {
      */
     public Optional<Position> hire(Name person, String title) {
         //your code here
+        Queue<Position> queue = new LinkedList<Position>();
+        queue.add(root);
+        int identifierCount = 1;
+        while (!queue.isEmpty()) {
+            Position pos = queue.remove();
+            if (pos.getTitle().equals(title)) {
+                pos.setEmployee(Optional.of(new Employee(identifierCount, person)));
+                return Optional.of(pos);
+            }
+            identifierCount++;
+            queue.addAll(pos.getDirectReports());
+        }
         return Optional.empty();
     }
 
